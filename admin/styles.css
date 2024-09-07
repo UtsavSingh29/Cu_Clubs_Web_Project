@@ -124,8 +124,7 @@ footer {
 #admin-cards-container{
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
-    width: 100%;
+    gap: 2px;
+    width: 120%;
     height: 200vh;
-    background-color: green;
 }   
