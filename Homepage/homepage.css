@@ -1,0 +1,89 @@
+/* Basic styling for homepage event cards */
+.homepage-event-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px; /* Reduced padding */
+    margin-bottom: 15px; /* Reduced margin */
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1); /* Slightly smaller shadow */
+    width: 250px; /* Fixed width for consistency */
+    /* Center align the cards */
+    display: inline-block;
+    vertical-align: top;
+}
+
+/* Ensure the image fits well within the card */
+.homepage-event-card img {
+    width: 100%;
+    height: auto; /* Keep aspect ratio */
+    border-radius: 5px;
+}
+
+/* Add responsive styling */
+@media (max-width: 768px) {
+    .homepage-event-card {
+        width: 100%; /* Full width on smaller screens */
+        margin-bottom: 10px; /* Adjust margin */
+    }
+}
+/* Header Styling */
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 15px 20px; /* Adjust padding for better spacing */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+}
+
+header h1 {
+    font-size: 24px;
+    margin: 0; /* Remove margin for better alignment */
+}
+
+/* Navigation Styling */
+nav ul {
+    list-style-type: none;
+    display: flex;
+    gap: 15px; /* Reduced gap between items */
+    margin: 0; /* Remove margin */
+    padding: 0; /* Remove padding */
+}
+
+nav ul li {
+    margin: 0;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 15px; /* Adjust padding for better spacing */
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+nav ul li a:hover {
+    background-color: #575757;
+}
+
+nav ul li a.active {
+    background-color: #ff5722;
+}
+
+/* Responsive Design for Header */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column; /* Stack header items vertically on small screens */
+        align-items: flex-start;
+    }
+
+    nav ul {
+        flex-direction: column; /* Stack navigation items vertically */
+        gap: 10px; /* Adjust gap for better spacing */
+    }
+
+    nav ul li a {
+        padding: 10px 20px; /* Adjust padding for better touch target on mobile */
+    }
+}

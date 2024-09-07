@@ -28,6 +28,7 @@ section {
     padding: 20px;
 }
 
+/* Form styling */
 form {
     display: flex;
     flex-direction: column;
@@ -55,16 +56,63 @@ button:focus {
     outline: none;
 }
 
-#admin-cards-container, #admin-list-container {
+/* Admin Cards Styling */
+#admin-cards-container {
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+    flex-wrap: wrap;
+    gap: 15px;
 }
 
-.admin-card, .admin-entry {
+.admin-card {
     background: #f9f9f9;
     border: 1px solid #ddd;
     border-radius: 5px;
-    padding: 15px;
+    padding: 10px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.admin-card h3 {
+    margin-top: 0;
+}
+
+.admin-card p {
+    font-size: 0.9em;
+    color: #555;
+}
+
+.admin-card img {
+    width: 100%;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.admin-card-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.admin-card-buttons button {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.admin-card-buttons button:last-child {
+    margin-right: 0;
+}
+.publish-btn, .delete-btn {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.publish-btn:hover, .delete-btn:hover {
+    background-color: #555;
 }

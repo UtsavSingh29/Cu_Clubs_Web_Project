@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function loadAdminData() {
         const events = JSON.parse(localStorage.getItem('events')) || [];
         const users = JSON.parse(localStorage.getItem('users')) || [];
-        
+
         // Display all events
         adminCardsContainer.innerHTML = '';
         events.forEach(event => {
@@ -23,6 +23,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 <p><strong>Club:</strong> ${event.club}</p>
                 <p><strong>Description:</strong> ${event.description}</p>
                 ${event.image ? `<img src="${event.image}" alt="${event.name}" style="max-width: 100%;"/>` : ''}
+                <div class="admin-card-buttons">
+                    ${event.published 
+                        ? `<button class="posted-btn" disabled>Posted</button>` 
+                        : `<button class="publish-btn">Post</button>`
+                    }
+                    <button class="delete-btn">Delete</button>
+                </div>
             `;
             adminCardsContainer.appendChild(eventCard);
         });
@@ -41,9 +48,72 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             adminListContainer.appendChild(adminEntry);
         });
+
+        // Attach event listeners to the new buttons
+        attachEventListeners();
     }
 
-    loadAdminData();
+    // Attach event listeners to newly created buttons
+    function attachEventListeners() {
+        const publishButtons = document.querySelectorAll('.publish-btn');
+        const deleteButtons = document.querySelectorAll('.delete-btn');
+
+        publishButtons.forEach(button => {
+            button.addEventListener('click', handlePublish);
+        });
+
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', handleDelete);
+        });
+    }
+
+    function handlePublish(event) {
+        const card = event.target.closest('.admin-card');
+        const eventName = card.querySelector('h3').innerText;
+
+        let events = JSON.parse(localStorage.getItem('events')) || [];
+        events = events.map(event => {
+            if (event.name === eventName) {
+                event.published = true; // Mark event as published
+            }
+            return event;
+        });
+        localStorage.setItem('events', JSON.stringify(events));
+
+        loadAdminData();
+        updateHomepage();
+    }
+
+    function handleDelete(event) {
+        const card = event.target.closest('.admin-card');
+        const eventName = card.querySelector('h3').innerText;
+
+        let events = JSON.parse(localStorage.getItem('events')) || [];
+        events = events.filter(event => event.name !== eventName);
+        localStorage.setItem('events', JSON.stringify(events));
+
+        loadAdminData();
+    }
+
+    function updateHomepage() {
+        const publishedEvents = JSON.parse(localStorage.getItem('events'))?.filter(event => event.published) || [];
+        const homepageEventsContainer = document.getElementById('homepage-events-container');
+        
+        // Make sure to clear the container first
+        homepageEventsContainer.innerHTML = '';
+
+        publishedEvents.forEach(event => {
+            const eventCard = document.createElement('div');
+            eventCard.className = 'homepage-event-card';
+            eventCard.innerHTML = `
+                <h3>${event.name}</h3>
+                <p><strong>Club:</strong> ${event.club}</p>
+                <p><strong>Description:</strong> ${event.description}</p>
+                ${event.image ? `<img src="${event.image}" alt="${event.name}" style="max-width: 100%;"/>` : ''}
+            `;
+            homepageEventsContainer.appendChild(eventCard);
+        });
+    }
 
     eventImageMethod.addEventListener('change', () => {
         if (eventImageMethod.value === 'file') {
@@ -76,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const events = JSON.parse(localStorage.getItem('events')) || [];
-        events.push({ name: eventName, club: eventClub, description: eventDescription, image: eventImage });
+        events.push({ name: eventName, club: eventClub, description: eventDescription, image: eventImage, published: false });
         localStorage.setItem('events', JSON.stringify(events));
 
         loadAdminData();
@@ -90,23 +160,24 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target.classList.contains('approve-btn')) {
             const email = e.target.dataset.email;
             const users = JSON.parse(localStorage.getItem('users')) || [];
-            const user = users.find(user => user.email === email);
-            if (user) {
-                user.approved = true;
-                localStorage.setItem('users', JSON.stringify(users));
-                loadAdminData();
-            }
+            users.forEach(user => {
+                if (user.email === email) {
+                    user.approved = true;
+                }
+            });
+            localStorage.setItem('users', JSON.stringify(users));
+            loadAdminData();
         }
 
         if (e.target.classList.contains('delete-btn')) {
             const email = e.target.dataset.email;
             const users = JSON.parse(localStorage.getItem('users')) || [];
-            const index = users.findIndex(user => user.email === email);
-            if (index > -1) {
-                users.splice(index, 1);
-                localStorage.setItem('users', JSON.stringify(users));
-                loadAdminData();
-            }
+            const filteredUsers = users.filter(user => user.email !== email);
+            localStorage.setItem('users', JSON.stringify(filteredUsers));
+            loadAdminData();
         }
     });
+
+    loadAdminData();
 });
+ 
