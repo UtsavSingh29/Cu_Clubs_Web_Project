@@ -1,25 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin-Sports Club</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <header>
-        <h1>Sports Club Admin Page</h1>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Coding Ninjas</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+<header>
+      <h1>CODINGNINJAS</h1>
     </header>
     <main>
-        <section id="event-form">
-            <h2>Manage Events</h2>
-            <!-- Add Event Form (same as before) -->
-            <form id="add-event-form">
-                <!-- Input fields for events -->
-            </form>
-        </section>
-        <section id="admin-cards-container"></section>
+      <section id="event-form"> 
+        <h2>Add New Event</h2>
+        <form id="add-event-form">
+          <input
+            type="text"
+            id="event-name"
+            placeholder="Event Name"
+            required
+          />
+          <input type="text" id="event-club" placeholder="Club Name" required />
+          <textarea
+            id="event-description"
+            placeholder="Event Description"
+            required
+          ></textarea>
+          <!-- Image Upload or URL -->
+          <label for="event-image-method">Image Method:</label>
+          <select id="event-image-method">
+            <option value="file">File</option>
+            <option value="url">URL</option>
+          </select>
+
+          <!-- File upload input -->
+          <label for="event-image-file" id="file-label">Event Image (File):</label>
+          <input type="file" id="event-image-file" accept="image/*" />
+
+          <!-- URL input, hidden by default -->
+          <label for="event-image-url" id="url-label" style="display: none;">Event Image (URL):</label>
+          <input
+            type="text"
+            id="event-image-url"
+            placeholder="Image URL"
+            style="display: none;"
+          />
+
+          <button type="submit">Add Event</button>
+        </form>
+
+        <hr />
+
+        <h2>All Events (Admin View)</h2>
+        <div id="admin-cards-container"></div>
+      </section>
     </main>
     <script src="script.js"></script>
-</body>
+  </body>
 </html>

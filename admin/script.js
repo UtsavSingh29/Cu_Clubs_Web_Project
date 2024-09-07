@@ -1,171 +1,112 @@
-
-  document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('add-event-form');
+document.addEventListener('DOMContentLoaded', () => {
     const adminCardsContainer = document.getElementById('admin-cards-container');
+    const adminListContainer = document.getElementById('admin-list-container');
+    const eventForm = document.getElementById('add-event-form');
+    const eventImageMethod = document.getElementById('event-image-method');
+    const fileInput = document.getElementById('event-image-file');
+    const urlInput = document.getElementById('event-image-url');
+    const fileLabel = document.getElementById('file-label');
+    const urlLabel = document.getElementById('url-label');
 
-    // Initialize IndexedDB
-    let db;
-    const request = indexedDB.open('eventsDB', 1);
+    // Load events and admins on page load
+    function loadAdminData() {
+        const events = JSON.parse(localStorage.getItem('events')) || [];
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        
+        // Display all events
+        adminCardsContainer.innerHTML = '';
+        events.forEach(event => {
+            const eventCard = document.createElement('div');
+            eventCard.className = 'admin-card';
+            eventCard.innerHTML = `
+                <h3>${event.name}</h3>
+                <p><strong>Club:</strong> ${event.club}</p>
+                <p><strong>Description:</strong> ${event.description}</p>
+                ${event.image ? `<img src="${event.image}" alt="${event.name}" style="max-width: 100%;"/>` : ''}
+            `;
+            adminCardsContainer.appendChild(eventCard);
+        });
 
-    request.onupgradeneeded = (e) => {
-      db = e.target.result;
-      db.createObjectStore('events', { keyPath: 'id', autoIncrement: true });
-    };
+        // Display list of admins
+        adminListContainer.innerHTML = '';
+        users.forEach(user => {
+            const adminEntry = document.createElement('div');
+            adminEntry.className = 'admin-entry';
+            adminEntry.innerHTML = `
+                <p><strong>Email:</strong> ${user.email}</p>
+                <p><strong>Club:</strong> ${user.club}</p>
+                <p><strong>Status:</strong> ${user.approved ? 'Approved' : 'Pending'}</p>
+                <button class="approve-btn" data-email="${user.email}" ${user.approved ? 'disabled' : ''}>Approve</button>
+                <button class="delete-btn" data-email="${user.email}">Delete</button>
+            `;
+            adminListContainer.appendChild(adminEntry);
+        });
+    }
 
-    request.onsuccess = (e) => {
-      db = e.target.result;
-      loadAdminEvents();
-    };
+    loadAdminData();
 
-    request.onerror = (e) => {
-      console.error('Error opening database:', e);
-    };
-
-    // Form submission for adding events
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-
-      const eventName = document.getElementById('event-name').value;
-      const eventClub = document.getElementById('event-club').value;
-      const eventDescription = document.getElementById('event-description').value;
-      const imageMethod = document.getElementById('event-image-method').value;
-      let eventImage;
-
-      if (imageMethod === 'file') {
-        const fileInput = document.getElementById('event-image-file');
-        const reader = new FileReader();
-        const file = fileInput.files[0];
-
-        reader.onloadend = function () {
-          eventImage = reader.result; // Base64 encoding of the image
-          addEvent({ eventName, eventClub, eventDescription, eventImage, published: false });
-        };
-        reader.readAsDataURL(file);
-      } else if (imageMethod === 'url') {
-        eventImage = document.getElementById('event-image-url').value;
-        if (eventImage.trim() === '') {
-          alert('Please enter a valid image URL');
-          return;
+    eventImageMethod.addEventListener('change', () => {
+        if (eventImageMethod.value === 'file') {
+            fileInput.style.display = 'block';
+            urlInput.style.display = 'none';
+            fileLabel.style.display = 'block';
+            urlLabel.style.display = 'none';
+        } else {
+            fileInput.style.display = 'none';
+            urlInput.style.display = 'block';
+            fileLabel.style.display = 'none';
+            urlLabel.style.display = 'block';
         }
-        addEvent({ eventName, eventClub, eventDescription, eventImage, published: false });
-      }
     });
 
-    // Add event to IndexedDB
-    function addEvent(event) {
-      const transaction = db.transaction(['events'], 'readwrite');
-      const store = transaction.objectStore('events');
-      store.add(event);
+    eventForm.addEventListener('submit', function (e) {
+        e.preventDefault();
 
-      transaction.oncomplete = () => {
-        loadAdminEvents();
-        console.log('Event added successfully');
-      };
+        const eventName = document.getElementById('event-name').value;
+        const eventClub = document.getElementById('event-club').value;
+        const eventDescription = document.getElementById('event-description').value;
+        let eventImage = '';
 
-      transaction.onerror = () => {
-        console.log('Error adding event');
-      };
-    }
-
-    // Load all events on admin page
-    function loadAdminEvents() {
-      adminCardsContainer.innerHTML = ''; // Clear container
-      const transaction = db.transaction(['events'], 'readonly');
-      const store = transaction.objectStore('events');
-
-      store.openCursor().onsuccess = (e) => {
-        const cursor = e.target.result;
-        if (cursor) {
-          const event = cursor.value;
-          displayAdminCard(event);
-          cursor.continue();
+        if (eventImageMethod.value === 'file') {
+            if (fileInput.files.length > 0) {
+                eventImage = URL.createObjectURL(fileInput.files[0]);
+            }
+        } else {
+            eventImage = urlInput.value;
         }
-      };
-    }
 
-    // Display event card in admin view with delete and publish buttons
-    function displayAdminCard(event) {
-      const card = document.createElement('div');
-      card.classList.add('card');
-      card.innerHTML = `
-        <img src="${event.eventImage}" class="card-image" alt="Event Image" />
-        <div class="card-body">
-          <h3>${event.eventName}</h3>
-          <p>${event.eventClub}</p>
-          <p>${event.eventDescription}</p>
-        </div>
-        <div class="card-actions">
-          <button class="delete-event" data-id="${event.id}">Delete</button>
-          <button class="publish-event" data-id="${event.id}" ${event.published ? 'disabled' : ''}>
-            ${event.published ? 'Published' : 'Publish'}
-          </button>
-        </div>
-      `;
-      adminCardsContainer.appendChild(card);
+        const events = JSON.parse(localStorage.getItem('events')) || [];
+        events.push({ name: eventName, club: eventClub, description: eventDescription, image: eventImage });
+        localStorage.setItem('events', JSON.stringify(events));
 
-      // Attach delete functionality to the delete button
-      const deleteBtn = card.querySelector('.delete-event');
-      deleteBtn.addEventListener('click', () => deleteEvent(event.id));
+        loadAdminData();
 
-      // Attach publish functionality to the publish button
-      const publishBtn = card.querySelector('.publish-event');
-      publishBtn.addEventListener('click', () => publishEvent(event.id));
-    }
-
-    // Delete event function
-    function deleteEvent(id) {
-      const transaction = db.transaction(['events'], 'readwrite');
-      const store = transaction.objectStore('events');
-      store.delete(id);
-
-      transaction.oncomplete = () => {
-        loadAdminEvents();
-        console.log('Event deleted');
-      };
-
-      transaction.onerror = () => {
-        console.log('Error deleting event');
-      };
-    }
-
-    // Publish event function
-    function publishEvent(id) {
-      const transaction = db.transaction(['events'], 'readwrite');
-      const store = transaction.objectStore('events');
-      const request = store.get(id);
-
-      request.onsuccess = () => {
-        const event = request.result;
-        event.published = true; // Update publish status
-        store.put(event);
-
-        transaction.oncomplete = () => {
-          loadAdminEvents();
-          console.log('Event published');
-        };
-      };
-    }
-
-    // Toggle between file and URL input fields
-    document.getElementById('event-image-method').addEventListener('change', function () {
-      const method = this.value;
-      const fileInput = document.getElementById('file-label');
-      const fileField = document.getElementById('event-image-file');
-      const urlLabel = document.getElementById('url-label');
-      const urlField = document.getElementById('event-image-url');
-
-      if (method === 'file') {
-        // Show file input, hide URL input
+        eventForm.reset();
         fileInput.style.display = 'block';
-        fileField.style.display = 'block';
-        urlLabel.style.display = 'none';
-        urlField.style.display = 'none';
-      } else if (method === 'url') {
-        // Show URL input, hide file input
-        fileInput.style.display = 'none';
-        fileField.style.display = 'none';
-        urlLabel.style.display = 'block';
-        urlField.style.display = 'block';
-      }
+        urlInput.style.display = 'none';
     });
-  });
+
+    adminListContainer.addEventListener('click', function (e) {
+        if (e.target.classList.contains('approve-btn')) {
+            const email = e.target.dataset.email;
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const user = users.find(user => user.email === email);
+            if (user) {
+                user.approved = true;
+                localStorage.setItem('users', JSON.stringify(users));
+                loadAdminData();
+            }
+        }
+
+        if (e.target.classList.contains('delete-btn')) {
+            const email = e.target.dataset.email;
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const index = users.findIndex(user => user.email === email);
+            if (index > -1) {
+                users.splice(index, 1);
+                localStorage.setItem('users', JSON.stringify(users));
+                loadAdminData();
+            }
+        }
+    });
+});
