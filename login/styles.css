@@ -1,36 +1,86 @@
 /* Basic styling for the container and forms */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
-    background: #f0f0f0;
+    background: linear-gradient(135deg, #2a9d8f, #264653);
+    color: #333;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
+/* Header */
 header {
-    background: #333;
-    color: white;
-    padding: 10px 20px;
+    background-color: #24292e;
+    padding: 10px;
     text-align: center;
+    min-width: 98.6vw;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
+header h1 {
+    font-size: 2.2rem;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    color: #f4a261;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 30px;
+    background-color: #f4a261;
+    transition: transform 0.3s ease, background-color 0.3s;
+}
+
+nav ul li a:hover {
+    background-color: #ffb703;
+    transform: scale(1.1);
+}
+
+nav ul li a.active {
+    background-color: #e76f51;
+}
+
+/* Main container styling */
 main {
-    padding: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 80vh;
+    flex-grow: 1;
 }
 
+/* Form container styling */
 #form-container {
+    background-color: #fff;
     width: 400px;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#form-container:hover {
+    transform: scale(1.05);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
 }
 
 .form-section {
-    padding: 20px;
+    padding: 30px;
     display: none;
 }
 
@@ -38,29 +88,88 @@ main {
     display: block;
 }
 
+/* Form Styling */
 form {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 20px;
 }
 
-input, select, button {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+input, select {
+    padding: 12px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9fafb;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    font-size: 16px;
 }
 
+input:focus, select:focus {
+    border-color: #2a9d8f;
+    box-shadow: 0 0 8px rgba(42, 157, 143, 0.2);
+    outline: none;
+}
+
+/* Button Styling */
 button {
-    background-color: #333;
+    padding: 12px;
+    background-color: #2a9d8f;
     color: white;
     border: none;
+    border-radius: 8px;
     cursor: pointer;
+    font-size: 18px;
+    transition: background-color 0.3s, transform 0.2s;
 }
 
 button:hover {
-    background-color: #555;
+    background-color: #21867a;
+    transform: translateY(-3px);
+}
+
+button:active {
+    transform: scale(0.98);
 }
 
 button:focus {
     outline: none;
+}
+
+/* Toggle button between Login and Signup */
+button#show-signup, button#show-login {
+    background: none;
+    color: #2a9d8f;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border: none;
+    margin-top: 10px;
+    transition: color 0.3s;
+}
+
+button#show-signup:hover, button#show-login:hover {
+    color: #21867a;
+}
+
+button#show-signup:focus, button#show-login:focus {
+    outline: none;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 500px) {
+    #form-container {
+        width: 90%;
+    }
+
+    header {
+        font-size: 1.5rem;
+    }
+
+    nav ul {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    nav ul li a {
+        padding: 10px 30px;
+    }
 }
