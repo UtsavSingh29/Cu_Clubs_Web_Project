@@ -1,0 +1,123 @@
+/* Basic styling for the container and forms */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f0f0f0;
+}
+
+header {
+    background: #333;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+main {
+    padding: 20px;
+}
+
+section {
+    margin-bottom: 40px;
+}
+
+#event-form, #admin-management {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+/* Form styling */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+input, select, textarea, button {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    background-color: #333;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+button:focus {
+    outline: none;
+}
+
+/* Admin Cards Styling */
+#admin-cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.admin-card {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.admin-card h3 {
+    margin-top: 0;
+}
+
+.admin-card p {
+    font-size: 0.9em;
+    color: #555;
+}
+
+.admin-card img {
+    width: 100%;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.admin-card-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.admin-card-buttons button {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.admin-card-buttons button:last-child {
+    margin-right: 0;
+}
+.publish-btn, .delete-btn {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.publish-btn:hover, .delete-btn:hover {
+    background-color: #555;
+}
+#admin-list-container{
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+}
