@@ -7,9 +7,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const request = indexedDB.open("eventsDB", 1);
 
   request.onupgradeneeded = (e) => {
-    db = e.target.result;
-    db.createObjectStore("events", { keyPath: "id", autoIncrement: true });
-  };
+  db = e.target.result;
+  db.createObjectStore("sportsEvents", { keyPath: "id", autoIncrement: true });
+  db.createObjectStore("codingNinjaEvents", { keyPath: "id", autoIncrement: true });
+};
+
 
   request.onsuccess = (e) => {
     db = e.target.result;
@@ -126,51 +128,60 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Delete event function
-  function deleteEvent(id) {
-    const transaction = db.transaction(["events"], "readwrite");
-    const store = transaction.objectStore("events");
-    store.delete(id);
+  // Delete event function
+function deleteEvent(id) {
+  const transaction = db.transaction(["events"], "readwrite");
+  const store = transaction.objectStore("events");
+  store.delete(id);
+
+  transaction.oncomplete = () => {
+    // Remove event from localStorage
+    const allEvents = JSON.parse(localStorage.getItem("events")) || [];
+    const updatedEvents = allEvents.filter((e) => e.id !== id); // Remove the deleted event
+    localStorage.setItem("events", JSON.stringify(updatedEvents)); // Update localStorage
+
+    loadAdminEvents();
+    console.log("Event deleted and localStorage updated");
+  };
+
+  transaction.onerror = () => {
+    console.log("Error deleting event");
+  };
+}
+
+  // Publish event function
+  // Publish event function
+function publishEvent(id) {
+  const transaction = db.transaction(["events"], "readwrite");
+  const store = transaction.objectStore("events");
+  const request = store.get(id);
+
+  request.onsuccess = () => {
+    const event = request.result;
+    event.published = true; // Update publish status
+    store.put(event);
+
+    // Also update localStorage for published events
+    const allEvents = JSON.parse(localStorage.getItem("events")) || [];
+    const publishedEvents = allEvents.filter((e) => e.id !== id); // Remove duplicate event
+    publishedEvents.push({
+      id: event.id,
+      name: event.eventName,
+      club: event.eventClub,
+      description: event.eventDescription,
+      image: event.eventImage,
+      published: event.published,
+    });
+
+    localStorage.setItem("events", JSON.stringify(publishedEvents)); // Update localStorage
 
     transaction.oncomplete = () => {
       loadAdminEvents();
-      console.log("Event deleted");
+      console.log("Event published and localStorage updated");
     };
+  };
+}
 
-    transaction.onerror = () => {
-      console.log("Error deleting event");
-    };
-  }
-  // Publish event function
-  function publishEvent(id) {
-    const transaction = db.transaction(["events"], "readwrite");
-    const store = transaction.objectStore("events");
-    const request = store.get(id);
-
-    request.onsuccess = () => {
-      const event = request.result;
-      event.published = true; // Update publish status
-      store.put(event);
-
-      // Also update localStorage for published events
-      const allEvents = JSON.parse(localStorage.getItem("events")) || [];
-      const publishedEvents = allEvents.filter((e) => e.id !== id); // Remove duplicate event
-      publishedEvents.push({
-        id: event.id,
-        name: event.eventName,
-        club: event.eventClub,
-        description: event.eventDescription,
-        image: event.eventImage,
-        published: event.published,
-      });
-
-      localStorage.setItem("events", JSON.stringify(publishedEvents)); // Update localStorage
-
-      transaction.oncomplete = () => {
-        loadAdminEvents();
-        console.log("Event published and added to localStorage");
-      };
-    };
-  }
 
   // Toggle between file and URL input fields
   document
@@ -181,7 +192,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const fileField = document.getElementById("event-image-file");
       const urlLabel = document.getElementById("url-label");
       const urlField = document.getElementById("event-image-url");
-
       if (method === "file") {
         // Show file input, hide URL input
         fileInput.style.display = "block";

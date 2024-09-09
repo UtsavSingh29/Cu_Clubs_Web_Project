@@ -126,20 +126,27 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Delete event function
+  // Delete event function
   function deleteEvent(id) {
     const transaction = db.transaction(["events"], "readwrite");
     const store = transaction.objectStore("events");
     store.delete(id);
 
     transaction.oncomplete = () => {
+      // Remove event from localStorage
+      const allEvents = JSON.parse(localStorage.getItem("events")) || [];
+      const updatedEvents = allEvents.filter((e) => e.id !== id); // Remove the deleted event
+      localStorage.setItem("events", JSON.stringify(updatedEvents)); // Update localStorage
+
       loadAdminEvents();
-      console.log("Event deleted");
+      console.log("Event deleted and localStorage updated");
     };
 
     transaction.onerror = () => {
       console.log("Error deleting event");
     };
   }
+
   // Publish event function
   function publishEvent(id) {
     const transaction = db.transaction(["events"], "readwrite");
@@ -167,7 +174,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       transaction.oncomplete = () => {
         loadAdminEvents();
-        console.log("Event published and added to localStorage");
+        console.log("Event published and localStorage updated");
       };
     };
   }
