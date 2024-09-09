@@ -116,3 +116,8 @@ button:focus {
 .publish-btn:hover, .delete-btn:hover {
     background-color: #555;
 }
+
+#admin-list-container{
+    display: flex;
+    gap: 30px;
+}

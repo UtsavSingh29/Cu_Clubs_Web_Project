@@ -1,183 +1,199 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const adminCardsContainer = document.getElementById('admin-cards-container');
-    const adminListContainer = document.getElementById('admin-list-container');
-    const eventForm = document.getElementById('add-event-form');
-    const eventImageMethod = document.getElementById('event-image-method');
-    const fileInput = document.getElementById('event-image-file');
-    const urlInput = document.getElementById('event-image-url');
-    const fileLabel = document.getElementById('file-label');
-    const urlLabel = document.getElementById('url-label');
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("add-event-form");
+  const adminCardsContainer = document.getElementById("admin-cards-container");
 
-    // Load events and admins on page load
-    function loadAdminData() {
-        const events = JSON.parse(localStorage.getItem('events')) || [];
-        const users = JSON.parse(localStorage.getItem('users')) || [];
+  // Initialize IndexedDB
+  let db;
+  const request = indexedDB.open("eventsDB", 1);
 
-        // Display all events
-        adminCardsContainer.innerHTML = '';
-        events.forEach(event => {
-            const eventCard = document.createElement('div');
-            eventCard.className = 'admin-card';
-            eventCard.innerHTML = `
-                <h3>${event.name}</h3>
-                <p><strong>Club:</strong> ${event.club}</p>
-                <p><strong>Description:</strong> ${event.description}</p>
-                ${event.image ? `<img src="${event.image}" alt="${event.name}" style="max-width: 100%;"/>` : ''}
-                <div class="admin-card-buttons">
-                    ${event.published 
-                        ? `<button class="posted-btn" disabled>Posted</button>` 
-                        : `<button class="publish-btn">Post</button>`
-                    }
-                    <button class="delete-btn">Delete</button>
-                </div>
-            `;
-            adminCardsContainer.appendChild(eventCard);
+  request.onupgradeneeded = (e) => {
+    db = e.target.result;
+    db.createObjectStore("events", { keyPath: "id", autoIncrement: true });
+  };
+
+  request.onsuccess = (e) => {
+    db = e.target.result;
+    loadAdminEvents();
+  };
+
+  request.onerror = (e) => {
+    console.error("Error opening database:", e);
+  };
+
+  // Form submission for adding events
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const eventName = document.getElementById("event-name").value;
+    const eventClub = document.getElementById("event-club").value;
+    const eventDescription = document.getElementById("event-description").value;
+    const imageMethod = document.getElementById("event-image-method").value;
+    let eventImage;
+
+    if (imageMethod === "file") {
+      const fileInput = document.getElementById("event-image-file");
+      const reader = new FileReader();
+      const file = fileInput.files[0];
+
+      reader.onloadend = function () {
+        eventImage = reader.result; // Base64 encoding of the image
+        addEvent({
+          eventName,
+          eventClub,
+          eventDescription,
+          eventImage,
+          published: false,
         });
-
-        // Display list of admins
-        adminListContainer.innerHTML = '';
-        users.forEach(user => {
-            const adminEntry = document.createElement('div');
-            adminEntry.className = 'admin-entry';
-            adminEntry.innerHTML = `
-                <p><strong>Email:</strong> ${user.email}</p>
-                <p><strong>Club:</strong> ${user.club}</p>
-                <p><strong>Status:</strong> ${user.approved ? 'Approved' : 'Pending'}</p>
-                <button class="approve-btn" data-email="${user.email}" ${user.approved ? 'disabled' : ''}>Approve</button>
-                <button class="delete-btn" data-email="${user.email}">Delete</button>
-            `;
-            adminListContainer.appendChild(adminEntry);
-        });
-
-        // Attach event listeners to the new buttons
-        attachEventListeners();
+      };
+      reader.readAsDataURL(file);
+    } else if (imageMethod === "url") {
+      eventImage = document.getElementById("event-image-url").value;
+      if (eventImage.trim() === "") {
+        alert("Please enter a valid image URL");
+        return;
+      }
+      addEvent({
+        eventName,
+        eventClub,
+        eventDescription,
+        eventImage,
+        published: false,
+      });
     }
+  });
 
-    // Attach event listeners to newly created buttons
-    function attachEventListeners() {
-        const publishButtons = document.querySelectorAll('.publish-btn');
-        const deleteButtons = document.querySelectorAll('.delete-btn');
+  // Add event to IndexedDB
+  function addEvent(event) {
+    const transaction = db.transaction(["events"], "readwrite");
+    const store = transaction.objectStore("events");
+    store.add(event);
 
-        publishButtons.forEach(button => {
-            button.addEventListener('click', handlePublish);
-        });
+    transaction.oncomplete = () => {
+      loadAdminEvents();
+      console.log("Event added successfully");
+    };
 
-        deleteButtons.forEach(button => {
-            button.addEventListener('click', handleDelete);
-        });
-    }
+    transaction.onerror = () => {
+      console.log("Error adding event");
+    };
+  }
 
-    function handlePublish(event) {
-        const card = event.target.closest('.admin-card');
-        const eventName = card.querySelector('h3').innerText;
+  // Load all events on admin page
+  function loadAdminEvents() {
+    adminCardsContainer.innerHTML = ""; // Clear container
+    const transaction = db.transaction(["events"], "readonly");
+    const store = transaction.objectStore("events");
 
-        let events = JSON.parse(localStorage.getItem('events')) || [];
-        events = events.map(event => {
-            if (event.name === eventName) {
-                event.published = true; // Mark event as published
-            }
-            return event;
-        });
-        localStorage.setItem('events', JSON.stringify(events));
+    store.openCursor().onsuccess = (e) => {
+      const cursor = e.target.result;
+      if (cursor) {
+        const event = cursor.value;
+        displayAdminCard(event);
+        cursor.continue();
+      }
+    };
+  }
 
-        loadAdminData();
-        updateHomepage();
-    }
+  // Display event card in admin view with delete and publish buttons
+  function displayAdminCard(event) {
+    const card = document.createElement("div");
+    card.classList.add("card");
+    card.innerHTML = `
+        <img src="${event.eventImage}" class="card-image" alt="Event Image" />
+        <div class="card-body">
+          <h3>${event.eventName}</h3>
+          <p>${event.eventClub}</p>
+          <p>${event.eventDescription}</p>
+        </div>
+        <div class="card-actions">
+          <button class="delete-event" data-id="${event.id}">Delete</button>
+          <button class="publish-event" data-id="${event.id}" ${
+      event.published ? "disabled" : ""
+    }>
+            ${event.published ? "Published" : "Publish"}
+          </button>
+        </div>
+      `;
+    adminCardsContainer.appendChild(card);
 
-    function handleDelete(event) {
-        const card = event.target.closest('.admin-card');
-        const eventName = card.querySelector('h3').innerText;
+    // Attach delete functionality to the delete button
+    const deleteBtn = card.querySelector(".delete-event");
+    deleteBtn.addEventListener("click", () => deleteEvent(event.id));
 
-        let events = JSON.parse(localStorage.getItem('events')) || [];
-        events = events.filter(event => event.name !== eventName);
-        localStorage.setItem('events', JSON.stringify(events));
+    // Attach publish functionality to the publish button
+    const publishBtn = card.querySelector(".publish-event");
+    publishBtn.addEventListener("click", () => publishEvent(event.id));
+  }
 
-        loadAdminData();
-    }
+  // Delete event function
+  function deleteEvent(id) {
+    const transaction = db.transaction(["events"], "readwrite");
+    const store = transaction.objectStore("events");
+    store.delete(id);
 
-    function updateHomepage() {
-        const publishedEvents = JSON.parse(localStorage.getItem('events'))?.filter(event => event.published) || [];
-        const homepageEventsContainer = document.getElementById('homepage-events-container');
-        
-        // Make sure to clear the container first
-        homepageEventsContainer.innerHTML = '';
+    transaction.oncomplete = () => {
+      loadAdminEvents();
+      console.log("Event deleted");
+    };
 
-        publishedEvents.forEach(event => {
-            const eventCard = document.createElement('div');
-            eventCard.className = 'homepage-event-card';
-            eventCard.innerHTML = `
-                <h3>${event.name}</h3>
-                <p><strong>Club:</strong> ${event.club}</p>
-                <p><strong>Description:</strong> ${event.description}</p>
-                ${event.image ? `<img src="${event.image}" alt="${event.name}" style="max-width: 100%;"/>` : ''}
-            `;
-            homepageEventsContainer.appendChild(eventCard);
-        });
-    }
+    transaction.onerror = () => {
+      console.log("Error deleting event");
+    };
+  }
+  // Publish event function
+  function publishEvent(id) {
+    const transaction = db.transaction(["events"], "readwrite");
+    const store = transaction.objectStore("events");
+    const request = store.get(id);
 
-    eventImageMethod.addEventListener('change', () => {
-        if (eventImageMethod.value === 'file') {
-            fileInput.style.display = 'block';
-            urlInput.style.display = 'none';
-            fileLabel.style.display = 'block';
-            urlLabel.style.display = 'none';
-        } else {
-            fileInput.style.display = 'none';
-            urlInput.style.display = 'block';
-            fileLabel.style.display = 'none';
-            urlLabel.style.display = 'block';
-        }
+    request.onsuccess = () => {
+      const event = request.result;
+      event.published = true; // Update publish status
+      store.put(event);
+
+      // Also update localStorage for published events
+      const allEvents = JSON.parse(localStorage.getItem("events")) || [];
+      const publishedEvents = allEvents.filter((e) => e.id !== id); // Remove duplicate event
+      publishedEvents.push({
+        id: event.id,
+        name: event.eventName,
+        club: event.eventClub,
+        description: event.eventDescription,
+        image: event.eventImage,
+        published: event.published,
+      });
+
+      localStorage.setItem("events", JSON.stringify(publishedEvents)); // Update localStorage
+
+      transaction.oncomplete = () => {
+        loadAdminEvents();
+        console.log("Event published and added to localStorage");
+      };
+    };
+  }
+
+  // Toggle between file and URL input fields
+  document
+    .getElementById("event-image-method")
+    .addEventListener("change", function () {
+      const method = this.value;
+      const fileInput = document.getElementById("file-label");
+      const fileField = document.getElementById("event-image-file");
+      const urlLabel = document.getElementById("url-label");
+      const urlField = document.getElementById("event-image-url");
+
+      if (method === "file") {
+        // Show file input, hide URL input
+        fileInput.style.display = "block";
+        fileField.style.display = "block";
+        urlLabel.style.display = "none";
+        urlField.style.display = "none";
+      } else if (method === "url") {
+        // Show URL input, hide file input
+        fileInput.style.display = "none";
+        fileField.style.display = "none";
+        urlLabel.style.display = "block";
+        urlField.style.display = "block";
+      }
     });
-
-    eventForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-
-        const eventName = document.getElementById('event-name').value;
-        const eventClub = document.getElementById('event-club').value;
-        const eventDescription = document.getElementById('event-description').value;
-        let eventImage = '';
-
-        if (eventImageMethod.value === 'file') {
-            if (fileInput.files.length > 0) {
-                eventImage = URL.createObjectURL(fileInput.files[0]);
-            }
-        } else {
-            eventImage = urlInput.value;
-        }
-
-        const events = JSON.parse(localStorage.getItem('events')) || [];
-        events.push({ name: eventName, club: eventClub, description: eventDescription, image: eventImage, published: false });
-        localStorage.setItem('events', JSON.stringify(events));
-
-        loadAdminData();
-
-        eventForm.reset();
-        fileInput.style.display = 'block';
-        urlInput.style.display = 'none';
-    });
-
-    adminListContainer.addEventListener('click', function (e) {
-        if (e.target.classList.contains('approve-btn')) {
-            const email = e.target.dataset.email;
-            const users = JSON.parse(localStorage.getItem('users')) || [];
-            users.forEach(user => {
-                if (user.email === email) {
-                    user.approved = true;
-                }
-            });
-            localStorage.setItem('users', JSON.stringify(users));
-            loadAdminData();
-        }
-
-        if (e.target.classList.contains('delete-btn')) {
-            const email = e.target.dataset.email;
-            const users = JSON.parse(localStorage.getItem('users')) || [];
-            const filteredUsers = users.filter(user => user.email !== email);
-            localStorage.setItem('users', JSON.stringify(filteredUsers));
-            loadAdminData();
-        }
-    });
-
-    loadAdminData();
 });
- 

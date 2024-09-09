@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const urlLabel = document.getElementById("url-label");
 
   // Toggle between login and signup forms
-  showSignup.addEventListener("click", () => {  
+  showSignup.addEventListener("click", () => {
     loginSection.classList.remove("active");
     signupSection.classList.add("active");
   });
@@ -40,13 +40,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (user) {
       if (user.approved) {
-        // Define the base path to the clubs' folder
-        const basePath =
-          "http://127.0.0.1:5501/UCA/Web_Project/UCA/login/clubs";
+        // Mapping of club names to their folder names
+        const clubFolders = {
+          Sports: "sports",
+          CodingNinja: "codingninja",
+        };
 
-        // Dynamically build the URL for the club admin page
-        const clubFolder = club.replace(/\s+/g, "-").toLowerCase(); // Converts club name to folder structure
-        window.location.href = `${basePath}/${clubFolder}/${clubFolder}-admin.html`;
+        // Get the corresponding folder name for the club
+        const folderName =
+          clubFolders[club] || club.replace(/\s+/g, "-").toLowerCase();
+
+        // Redirect to the appropriate club admin page using the folder structure
+        window.location.href = `http://127.0.0.1:5500/login/clubs/${folderName}/${folderName}-admin.html`;
       } else {
         alert(
           "Your request is pending approval. Please wait until it gets approved by an admin."
