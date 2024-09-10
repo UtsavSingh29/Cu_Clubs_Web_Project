@@ -15,8 +15,11 @@ body {
 header {
     background-color: #264653; /* Dark teal color */
     color: #fff;
-    padding: 20px;
+    padding: 10px;
     display: flex;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap; /* Enable wrapping for smaller screens */
@@ -692,7 +695,10 @@ textarea.input {
 #mission .mission-icons {
     display: flex;
     justify-content: center;
+    margin-top: 2rem;
+    position: relative;
     gap: 30px;
+    left: 10px;
 }
 
 .icon-card {
@@ -930,4 +936,23 @@ footer {
     nav ul li a {
         font-size: 1rem;
     }
+}
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-top: 10px;
+    background-color: #007bff;
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+.slider {
+  display: flex;
+  flex-direction: column;
 }
