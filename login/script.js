@@ -42,7 +42,7 @@ loginForm.addEventListener("submit", function (e) {
   );
 
   // Check for predefined admin credentials
-  if (email === "adminlogin@gmail.com" && password === "adminallowed") {
+  if (email === "adminlogin@gmail.com" && password === "adminallowed" &&club==="admin") {
     // Redirect to the admin page if the admin credentials are correct
     window.location.href = "http://127.0.0.1:5501/UCA/Web_Project/UCA/login/clubs/admin/admin-admin.html";
     return;
