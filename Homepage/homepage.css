@@ -336,13 +336,13 @@ textarea.input {
 }
 
 .btn {
-  padding: 0.6rem 1.3rem;
+  /* padding: 0.6rem 1.3rem; */
   background-color: #fff;
   border: 2px solid #fafafa;
   font-size: 0.95rem;
   color: #1abc9c;
   line-height: 1;
-  border-radius: 25px;
+  border-radius: -2px;
   outline: none;
   cursor: pointer;
   transition: 0.3s;
@@ -466,28 +466,6 @@ textarea.input {
   bottom: -77px;
   right: 50px;
   opacity: 0.3;
-}
-
-.big-circle {
-  position: absolute;
-  width: 500px;
-  height: 500px;
-  border-radius: 50%;
-  background: linear-gradient(to bottom, #9a9c9b, #282d2c);
-  bottom: 50%;
-  right: 50%;
-  transform: translate(-40%, 38%);
-}
-
-.big-circle:after {
-  content: "";
-  position: absolute;
-  width: 360px;
-  height: 360px;
-  background-color: #fafafa;
-  border-radius: 50%;
-  top: calc(50% - 180px);
-  left: calc(50% - 180px);
 }
 
 .square {
@@ -691,4 +669,121 @@ textarea.input {
 
 #homepage-contact-container .social-icons a:hover {
   transform: scale(1.05);
+}
+.contactpageheading{
+    padding: 0;
+    margin-bottom: -5rem;
+    margin-top: -4rem;
+}
+
+
+/* Mission Section */
+#mission {
+    text-align: center;
+    padding: 60px 20px;
+    margin-top: -8rem;
+}
+
+#mission .mission-icons {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.icon-card {
+    text-align: center;
+    padding: 20px;
+}
+
+.icon-card i {
+    font-size: 40px;
+    color: #2a9d8f;
+}
+
+/* Offerings Section */
+#offerings {
+    /* padding: 60px 20px; */
+    margin-top: -5rem;
+    margin-bottom: -2rem;
+    background-color: #f4f4f9;
+    text-align: center;
+}
+
+.offer-cards {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.offer-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.offer-card img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+/* Testimonials Section */
+#testimonials {
+    padding: 60px 20px;
+    margin-top: -5rem;
+    text-align: center;
+}
+
+.testimonial-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.testimonial-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    width: 300px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Statistics Section */
+#stats {
+    padding: 60px 20px;
+    background-color: #2a9d8f;
+    color: white;
+    text-align: center;
+}
+
+.stats-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.stat-card {
+    padding: 20px;
+    background-color: #264653;
+    border-radius: 10px;
+}
+
+.stat-card h3 {
+    font-size: 40px;
+    margin: 0;
+}
+
+/* Join Us Section */
+#join-us {
+    padding: 60px 20px;
+    background-color: #e76f51;
+    text-align: center;
+}
+
+#join-us .cta-button {
+    background-color: #264653;
+    padding: 15px 25px;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
 }
