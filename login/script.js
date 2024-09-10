@@ -28,6 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Handle login form submission
 // Handle login form submission
 // Handle login form submission
+// Handle login form submission
 loginForm.addEventListener("submit", function (e) {
   e.preventDefault();
 
@@ -40,6 +41,14 @@ loginForm.addEventListener("submit", function (e) {
     (u) => u.email === email && u.password === password && u.club === club
   );
 
+  // Check for predefined admin credentials
+  if (email === "adminlogin@gmail.com" && password === "adminallowed") {
+    // Redirect to the admin page if the admin credentials are correct
+    window.location.href = "http://127.0.0.1:5501/UCA/Web_Project/UCA/login/clubs/admin/admin-admin.html";
+    return;
+  }
+
+  // For other users
   if (user) {
     if (user.approved) {
       // Mapping of club names to their folder names
@@ -50,7 +59,6 @@ loginForm.addEventListener("submit", function (e) {
 
       if (club === "admin") {
         // Redirect to the correct URL for Admin
-        
         window.location.href = "http://127.0.0.1:5501/UCA/Web_Project/UCA/login/clubs/admin/admin-admin.html";
       } else {
         // For other clubs, get the folder name and redirect
@@ -67,6 +75,7 @@ loginForm.addEventListener("submit", function (e) {
     alert("Invalid login credentials.");
   }
 });
+
 
 
 
