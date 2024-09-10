@@ -50,6 +50,7 @@ loginForm.addEventListener("submit", function (e) {
 
       if (club === "admin") {
         // Redirect to the correct URL for Admin
+        
         window.location.href = "http://127.0.0.1:5501/UCA/Web_Project/UCA/login/clubs/admin/admin-admin.html";
       } else {
         // For other clubs, get the folder name and redirect
