@@ -26,41 +26,48 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Handle login form submission
-  loginForm.addEventListener("submit", function (e) {
-    e.preventDefault();
+// Handle login form submission
+// Handle login form submission
+loginForm.addEventListener("submit", function (e) {
+  e.preventDefault();
 
-    const email = document.getElementById("login-email").value;
-    const password = document.getElementById("login-password").value;
-    const club = document.getElementById("login-club").value;
+  const email = document.getElementById("login-email").value;
+  const password = document.getElementById("login-password").value;
+  const club = document.getElementById("login-club").value;
 
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-    const user = users.find(
-      (u) => u.email === email && u.password === password && u.club === club
-    );
+  const users = JSON.parse(localStorage.getItem("users")) || [];
+  const user = users.find(
+    (u) => u.email === email && u.password === password && u.club === club
+  );
 
-    if (user) {
-      if (user.approved) {
-        // Mapping of club names to their folder names
-        const clubFolders = {
-          Sports: "sports",
-          CodingNinja: "codingninja",
-        };
+  if (user) {
+    if (user.approved) {
+      // Mapping of club names to their folder names
+      const clubFolders = {
+        Sports: "sports",
+        CodingNinja: "codingninja",
+      };
 
-        // Get the corresponding folder name for the club
+      if (club === "admin") {
+        // Redirect to the correct URL for Admin
+        window.location.href = "http://127.0.0.1:5501/UCA/Web_Project/UCA/login/clubs/admin/admin-admin.html";
+      } else {
+        // For other clubs, get the folder name and redirect
         const folderName =
           clubFolders[club] || club.replace(/\s+/g, "-").toLowerCase();
-
-        // Redirect to the appropriate club admin page using the folder structure
-        window.location.href = `http://127.0.0.1:5500/login/clubs/${folderName}/${folderName}-admin.html`;
-      } else {
-        alert(
-          "Your request is pending approval. Please wait until it gets approved by an admin."
-        );
+        window.location.href = `http://127.0.0.1:5501/UCA/Web_Project/UCA/login/clubs/${folderName}/${folderName}-admin.html`;
       }
     } else {
-      alert("Invalid login credentials.");
+      alert(
+        "Your request is pending approval. Please wait until it gets approved by an admin."
+      );
     }
-  });
+  } else {
+    alert("Invalid login credentials.");
+  }
+});
+
+
 
   // Handle signup form submission
   signupForm.addEventListener("submit", function (e) {
