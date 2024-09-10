@@ -10,7 +10,16 @@ body {
     background: #f4f4f9; /* Soft background color */
     color: #333;
 }
+.imageofmainpage{
+  width: 99vw;
+  height: 92  vh;
+  position: absolute;
+  z-index: -1000;
+}
+.imageofimg{
+    width: 99vw;
 
+}
 /* Header Styling */
 header {
     background-color: #264653; /* Dark teal color */
@@ -84,7 +93,9 @@ nav ul li a.active {
         text-align: center;
     }
 }
-
+#homepage-events{
+  margin-top: 12rem;
+}
 /* Main Container Styling */
 main {
     padding: 40px 20px; /* Adjust padding for better spacing */
@@ -100,7 +111,7 @@ h2 {
     font-size: 2rem;
     text-align: center;
     margin-bottom: 30px;
-    color: #264653;
+    color: #070707;
     text-transform: uppercase;
 }
 
@@ -791,7 +802,9 @@ textarea.input {
     background-color: #e76f51;
     text-align: center;
 }
-
+#clubs{
+  margin-top: 1rem;
+}
 #join-us .cta-button {
     background-color: #264653;
     padding: 15px 25px;
