@@ -787,3 +787,92 @@ textarea.input {
     text-decoration: none;
     border-radius: 5px;
 }
+/* Clubs Section */
+.club-cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+}
+
+.club-card {
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.club-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+.club-card img {
+    width: 100%;
+    border-radius: 10px;
+    height: 180px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.club-card:hover img {
+    transform: scale(1.1); /* Slight zoom on hover */
+}
+
+.club-card h3 {
+    font-size: 1.5rem;
+    color: #264653;
+    margin-top: 15px;
+}
+
+.club-card p {
+    font-size: 1rem;
+    color: #555;
+    margin: 10px 0;
+}
+
+.club-card button {
+    background-color: #2a9d8f;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.club-card button:hover {
+    background-color: #21867a;
+    transform: translateY(-3px);
+}
+
+/* Cool Animation for Cards */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.club-card {
+    animation: slideIn 0.5s ease-out;
+}
+
+/* Responsive Design for Club Cards */
+@media (max-width: 768px) {
+    .club-card {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+}
