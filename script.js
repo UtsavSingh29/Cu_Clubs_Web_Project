@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Load published events on homepage
   function loadHomepageEvents() {
     const events = JSON.parse(localStorage.getItem('events')) || [];
+     console.log("Loaded events from localStorage:", events); 
     const publishedEvents = events.filter(event => event.published);
 
     // Clear the container before adding new events

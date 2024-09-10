@@ -176,6 +176,7 @@ document.addEventListener("DOMContentLoaded", () => {
           });
           localStorage.setItem("events", JSON.stringify(events));
 
+          console.log("Event added to localStorage:", events); //
           loadAdminData();
           eventForm.reset();
           fileInput.style.display = "block";
@@ -196,7 +197,7 @@ document.addEventListener("DOMContentLoaded", () => {
         published: false,
       });
       localStorage.setItem("events", JSON.stringify(events));
-
+       console.log("Event added to localStorage:", events); //
       loadAdminData();
       eventForm.reset();
       fileInput.style.display = "block";
