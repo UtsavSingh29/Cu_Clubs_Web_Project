@@ -441,18 +441,19 @@ textarea.input {
 
 .social-icons {
   display: flex;
-  margin-top: 0.5rem;
+  margin-top: 2rem;
 }
 
 .social-icons a {
   width: 35px;
   height: 35px;
-  border-radius: 5px;
+  border-radius: 5px;   
   background: linear-gradient(45deg, #1abc9c, #149279);
   color: #fff;
   text-align: center;
+  position: relative;
+  left: 8rem;
   line-height: 35px;
-  margin-right: 0.5rem;
   transition: 0.3s;
 }
 
@@ -889,5 +890,44 @@ footer {
     position: relative;
     width: 99.1%;
     bottom: 0;
+    margin-bottom: 0%;
     padding: 6px
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    header {
+        padding: 1rem;
+        display: flex;
+    }
+
+    nav ul {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav ul li {
+        display: block;
+        margin: 0.5rem 0;
+    }
+
+    nav ul li a {
+        font-size: 1.2rem;
+    }
+}
+
+/* Additional Styling for Very Small Screens */
+@media (max-width: 480px) {
+    header nav ul {
+        padding: 1rem;
+        display: flex;
+    }
+    header h1 {
+        font-size: 1.5rem;
+    }
+
+    nav ul li a {
+        font-size: 1rem;
+    }
 }
