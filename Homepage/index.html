@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>College Events</title>
     <link rel="stylesheet" href="homepage.css" />
+     <script
+      src="https://kit.fontawesome.com/64d58efce2.js"
+      crossorigin="anonymous"
+    ></script>
 </head>
 <body>
     <header>
@@ -27,27 +31,92 @@
                 <!-- Published events will be added here by JavaScript -->
             </div>
         </section>
-       
+        
         <section>
             <h2>Clubs</h2>
             <div id="homepage-allclubs-container">
                 <!-- Published events will be added here by JavaScript -->
             </div>
         </section>
-        <section></section>
-         <section id="homepage-events"><section id="homepage-events"></section>
+        <section id="homepage-events">
             <h2>Passed Events</h2>
             <div id="homepage-passedevents-container">
                 <!-- Published events will be added here by JavaScript -->
             </div>
         </section>
-            <h2>Contact Us</h2>
-            <div id="homepage-allclubs-container">
-                <!-- Published events will be added here by JavaScript -->
+        <section id="homepage-contact-container">
+            <h2 class="contactpageheading">Contact Us</h2>  
+            <div class="contact-form-container">
+                <div class="container"></div>
+                <!-- <span class="big-circle"></span> -->
+                <img src="img/shape.png" class="square" alt="" />
+                <div class="form">
+                    <div class="contact-info">
+                        <h3 class="title">Let's get in touch</h3>
+                        <p class="text">
+                            For Any queries or Signup Problem 
+                        </p>
+
+                        <div class="info">
+                            <div class="information">
+                                <img src="../img/location.png" class="icon" alt="" />
+                                <p>44 , Rajpura</p>
+                            </div>
+                            <div class="information">
+                                <img src="../img/email.png" class="icon" alt="" />
+                                <p>mypcusage2022@gmail.com</p>
+                            </div>
+                            <div class="information">
+                                <img src="../img/phone.png" class="icon" alt="" />
+                                <p>123-456-789</p>
+                            </div>
+                        </div>
+
+                        <div class="social-media">
+                            <p>Connect with us :</p>
+                            <div class="social-icons">
+                                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#"><i class="fab fa-twitter"></i></a>
+                                <a href="#"><i class="fab fa-instagram"></i></a>
+                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-form">
+                        <span class="circle one"></span>
+                        <span class="circle two"></span>
+
+                        <form id="contact-form" action="index.html" autocomplete="off">
+                            <h3 class="title">Contact us</h3>
+                            <div class="input-container">
+                                <input type="text" name="name" class="input" required/>
+                                <label for="">Username</label>
+                                <span>Username</span>
+                            </div>
+                            <div class="input-container">
+                                <input type="email" name="email" class="input" required/>
+                                <label for="">Email</label>
+                                <span>Email</span>
+                            </div>
+                            <div class="input-container">
+                                <input type="tel" name="phone" class="input" required/>
+                                <label for="">Phone</label>
+                                <span>Phone</span>
+                            </div>  
+                            <div class="input-container textarea">
+                                <textarea name="message" class="input" required></textarea>
+                                <label for="">Message</label>
+                                <span>Message</span>
+                            </div>
+                            <input type="submit" value="Send" class="btn" />
+                        </form>
+                    </div>
+                </div>
+            </div>
             </div>
         </section>
     </main>
-
     <script src="homepage.js"></script>
 </body>
 </html>
