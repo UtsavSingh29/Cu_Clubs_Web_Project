@@ -229,3 +229,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   loadAdminData();
 });
+function checkCharLimit(input, maxChars) {
+  let charCount = input.value.length;
+
+  // If the number of characters exceeds the limit, trim the extra characters
+  if (charCount > maxChars) {
+    input.value = input.value.slice(0, maxChars);
+    charCount = maxChars; // To ensure the displayed count matches the trimmed value
+  }
+
+  // Update the character count display
+  document.getElementById('char-count').textContent = 
+    charCount + '/' + maxChars + ' characters';
+}

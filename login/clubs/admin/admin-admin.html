@@ -51,8 +51,9 @@
             <input
               id="event-description"
               placeholder="Event Description"
+               oninput="checkCharLimit(this, 27)"
               required
-            />
+            /><p id="char-count">0/27 characters</p>
             <label for="event-image-method">Image Method:</label>
             <select id="event-image-method">
               <option value="file">File</option>
