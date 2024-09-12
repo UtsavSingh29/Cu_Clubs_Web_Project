@@ -28,10 +28,11 @@ This is a web project for Chitkara University that showcases upcoming events, cl
    git clone https://github.com/yourusername/chitkara-university-web-project.git
    ```
 2. ## Navigate to the Project Directory
-```cd chitkara-university-web-project
-```
-3.
-Open the index.html File
+
+    ```
+    cd chitkara-university-web-project
+    ```
+3. Open the index.html File
 
 You can open index.html in your preferred web browser to view the webpage.
 
