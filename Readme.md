@@ -34,7 +34,7 @@ This is a web project for Chitkara University that showcases upcoming events, cl
     ```
 3. Open the index.html File
 
-You can open index.html in your preferred web browser to view the webpage.
+    You can open index.html in your preferred web browser to view the webpage.
 
 ## Usage
 Dynamic Events: Events are loaded dynamically using JavaScript. Ensure that your script.js file is properly linked and includes logic for managing events.
