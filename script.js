@@ -4,27 +4,35 @@ document.addEventListener('DOMContentLoaded', () => {
   // Load published events on homepage
   function loadHomepageEvents() {
     const events = JSON.parse(localStorage.getItem('events')) || [];
-     console.log("Loaded events from localStorage:", events); 
+    console.log("Loaded events from localStorage:", events);
     const publishedEvents = events.filter(event => event.published);
 
     // Clear the container before adding new events
     homepageEventsContainer.innerHTML = '';
 
-    publishedEvents.forEach(event => {
+    publishedEvents.forEach((event, index) => {
       const eventCard = document.createElement('div');
-      eventCard.className = 'homepage-event-card';
+      eventCard.className = 'homepage-event-card zoom-in-animation'; // Add animation class
       eventCard.innerHTML = `
         <h3>${event.name}</h3>
         <p><strong>Club:</strong> ${event.club}</p>
         <p><strong>Description:</strong> ${event.description}</p>
         ${event.image ? `<img src="${event.image}" alt="${event.name}" style="max-width: 100%;"/>` : ''}
       `;
+
+      // Append event card to container
       homepageEventsContainer.appendChild(eventCard);
+
+      // Delay to allow animation effect
+      setTimeout(() => {
+        eventCard.classList.add('zoom-in-animation');
+      }, 100 * index); // Staggered delay
     });
   }
 
   loadHomepageEvents();
 });
+
 const inputs = document.querySelectorAll(".input");
 
 function focusFunc() {
