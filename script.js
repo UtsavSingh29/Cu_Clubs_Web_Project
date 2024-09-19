@@ -47,3 +47,30 @@ document.getElementById('contact-form').addEventListener('submit', function(even
             event.preventDefault();  // Prevents the form from submitting normally
             alert("Your message has been sent!");
         });
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+        const hamburger = document.querySelector('.hamburger');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const menuLinks = document.querySelectorAll('.mobile-menu a');
+
+        // Toggle the mobile menu when the hamburger icon is clicked
+        hamburger.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+        });
+
+        // Close the mobile menu when clicking outside of it
+        document.addEventListener('click', (event) => {
+            if (!hamburger.contains(event.target) && !mobileMenu.contains(event.target)) {
+                mobileMenu.classList.remove('active');
+            }
+        });
+
+        // Close the mobile menu when a menu item is clicked
+        menuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+            });
+        });
+    });

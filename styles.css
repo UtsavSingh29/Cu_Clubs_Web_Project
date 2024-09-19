@@ -13,7 +13,7 @@
     }
     .imageofmainpage{
       width: 99vw;
-      height: 92  vh;
+      height: 92vh;
       position: absolute;
       z-index: -1000;
     }
@@ -41,7 +41,7 @@
         letter-spacing: 2px;
         text-transform: uppercase;
     }
-
+    
     /* Navigation Styling */
     nav ul {
         list-style-type: none;
@@ -70,23 +70,116 @@
         background-color: #e76f51; /* Highlight the active link */
     }
     /* Responsive Design for Header */
-    @media (max-width: 768px) {
-        header {
-            flex-direction: column;
-            align-items: flex-start;
-        }
-        nav ul {
-            flex-direction: column;
-            width: 100%;
-            gap: 10px;
-            margin-top: 10px;
-        }
-        nav ul li a {
-            width: 100%; /* Full width for touch targets */
-            text-align: center;
-        }
-    }
+    /* Hamburger Menu */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    padding: 2px;
+    left:30.4rem;
+    position: relative;
+    margin-top: -2rem;
+}
 
+.hamburger div {
+    background-color: white;
+    height: 3px;
+    width: 2rem;
+    margin: 3px 0;
+    transition: 0.3s;
+    
+}
+
+/* Mobile Menu */
+.mobile-menu {
+    display: none;
+    left:28rem;
+    position: absolute;
+    top: 60px;
+    background-color: #1f2937;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 80px;
+    z-index: 1000;
+}
+
+.mobile-menu ul {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+}
+
+.mobile-menu ul li a {
+    padding: 10px;
+}
+
+/* Show mobile menu */
+.mobile-menu.active {
+    display: flex;
+}
+@media(max-width:795px){
+  header {
+    padding: 10px;
+        flex-direction: column;
+        align-items: flex-start;
+      } 
+    .headingnavbarelements{
+      display: none;} 
+    #homepage-events{
+      display: none;
+    }
+    #clubs{
+      margin-top: 30.5rem;
+      position: absolute ;
+    }
+    #homepage-events  .headingofupcomingevents{
+      position: absolute;
+      left:8rem;
+      width: 20rem;
+      margin-top: -13rem;
+      color:black;
+      font-weight: bold;
+      font-size: 2rem;
+    } 
+    nav ul {
+        display: none;
+    }
+    .hamburger {
+        display: flex;
+    }
+}
+/* Responsive Styling */
+@media (max-width: 460px) {
+    .headingnavbarelements{
+      display: none;
+    }
+    #homepage-events{
+      display: none;
+      background-color: #149279;
+    }
+    #clubs{
+      margin-top: 30.5rem;
+      position: absolute;
+    }
+    .headingofupcomingevents{
+      color: black;
+      position: absolute;
+      right: 25rem;
+      margin-top: -2rem;
+    }
+    header {
+        padding: 10px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    nav ul {
+        display: none;
+    }
+    .hamburger {
+        display: flex;
+    }
+}
     /* Main Container Styling */
     main {
         padding: 30px ; /* Adjust padding for better spacing */

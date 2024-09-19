@@ -44,7 +44,7 @@ loginForm.addEventListener("submit", function (e) {
   // Check for predefined admin credentials
   if (email === "adminlogin@gmail.com" && password === "adminallowed" &&club==="admin") {
     // Redirect to the admin page if the admin credentials are correct
-    window.location.href = "http://127.0.0.1:5501/UCA/Web_Project/UCA/login/clubs/admin/admin-admin.html";
+    window.location.href = "http://127.0.0.1:5500/UCA/Web_Project/UCA/login/clubs/admin/admin-admin.html";
     return;
   }
 
@@ -59,12 +59,12 @@ loginForm.addEventListener("submit", function (e) {
 
       if (club === "admin") {
         // Redirect to the correct URL for Admin
-        window.location.href = "http://127.0.0.1:5501/UCA/Web_Project/UCA/login/clubs/admin/admin-admin.html";
+        window.location.href = "http://127.0.0.1:5500/UCA/Web_Project/UCA/login/clubs/admin/admin-admin.html";
       } else {
         // For other clubs, get the folder name and redirect
         const folderName =
           clubFolders[club] || club.replace(/\s+/g, "-").toLowerCase();
-        window.location.href = `http://127.0.0.1:5501/UCA/Web_Project/UCA/login/clubs/${folderName}/${folderName}-admin.html`;
+        window.location.href = `http://127.0.0.1:5500/UCA/Web_Project/UCA/login/clubs/${folderName}/${folderName}-admin.html`;
       }
     } else {
       alert(

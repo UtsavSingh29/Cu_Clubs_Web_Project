@@ -5,22 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CHITKARA UNIVERSITY</title>
     <link rel="stylesheet" href="styles.css" />
-    <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>   
 </head>
 <body>
     <header>
-        <h1>CHITKARA UNIVERSITY </h1>
-        <nav>
+    <h1>CHITKARA UNIVERSITY</h1>
+    <nav>
+        <div class="hamburger">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <ul class="headingnavbarelements">
+            <li><a href="http://127.0.0.1:5500/UCA/Web_Project/UCA/index.html">Home</a></li>
+            <li><a href="#clubs">Clubs</a></li>
+            <li><a href="#mission">About</a></li>
+            <li><a href="#homepage-contact-container">Contact</a></li>
+            <li><a href="./login/login.html">Login</a></li>
+        </ul>
+        <div class="mobile-menu">
             <ul>
-                <li><a href="http://127.0.0.1:5501/UCA/Web_Project/UCA/index.html">Home</a></li>
+                <li><a href="http://127.0.0.1:5500/UCA/Web_Project/UCA/index.html">Home</a></li>
                 <li><a href="#clubs">Clubs</a></li>
                 <li><a href="#mission">About</a></li>
                 <li><a href="#homepage-contact-container">Contact</a></li>
                 <li><a href="./login/login.html">Login</a></li>
             </ul>
-        </nav>
-    </header>
-    <div class="imageofmainpage">
+        </div>
+    </nav>
+</header>
+
+    <div class="imageofmainpage">   
             <img class="imageofimg" src="./img/universities.jpg"/>
     </div>
     <main>
@@ -30,7 +45,6 @@
                 <!-- Published events will be added here by JavaScript -->
             </div>
         </div>
-        
         <div id="clubs">
             <h2>Clubs</h2>
             <div id="homepage-allclubs-container" class="club-cards-container">

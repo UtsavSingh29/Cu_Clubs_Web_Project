@@ -280,3 +280,14 @@ button:hover {
 }
 /* Basic card style */
 
+@media(max-width:480px){
+    header nav ul li a {
+    color: white;
+    border: 2px solid black;
+    background-color: #16a34a;
+    padding: 1px;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    transition: background-color 0.2s ease;
+    }
+}
